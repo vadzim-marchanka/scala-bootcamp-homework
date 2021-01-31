@@ -7,7 +7,6 @@ object Basics {
   @tailrec
   def gcd(a: Int, b: Int): Option[Int] = (a, b) match {
     case (0, 0) => None
-    case (0, v) => Some(v.abs)
     case (v, 0) => Some(v.abs)
     case _ => gcd(b, a % b)
   }
