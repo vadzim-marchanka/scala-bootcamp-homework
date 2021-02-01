@@ -14,19 +14,11 @@ class BasicsSpec extends AnyWordSpec with Matchers with ScalaCheckDrivenProperty
 
   "gcd" should {
 
-    "work for non zero values" in {
+    "work in all cases except two zero" in {
       forAll { (a: Int, b: Int) =>
-        whenever(a != 0 && b != 0) {
+        whenever(a != 0 || b != 0) {
+          println(a, b)
           BigInt(Basics.gcd(a, b).get) must equal(gcd(a, b))
-        }
-      }
-    }
-
-    "work if one of the values is zero" in {
-      forAll { a: Int =>
-        whenever(a != 0) {
-          BigInt(Basics.gcd(a, 0).get) must equal(gcd(a, 0))
-          BigInt(Basics.gcd(0, a).get) must equal(gcd(0, a))
         }
       }
     }
