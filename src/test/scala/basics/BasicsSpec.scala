@@ -17,7 +17,6 @@ class BasicsSpec extends AnyWordSpec with Matchers with ScalaCheckDrivenProperty
     "work in all cases except two zero" in {
       forAll { (a: Int, b: Int) =>
         whenever(a != 0 || b != 0) {
-          println(a, b)
           BigInt(Basics.gcd(a, b).get) must equal(gcd(a, b))
         }
       }
