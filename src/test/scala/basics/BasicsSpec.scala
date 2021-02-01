@@ -8,16 +8,16 @@ import scala.math.BigInt
 
 class BasicsSpec extends AnyWordSpec with Matchers with ScalaCheckDrivenPropertyChecks {
 
-  private def gcd(a: Int, b: Int): Int = BigInt(a).gcd(b).toInt
+  private def gcd(a: Int, b: Int): BigInt = BigInt(a).gcd(b)
 
-  private def lcm(a: Int, b: Int): Long = Math.abs((a.toLong * b) / gcd(a, b))
+  implicit val config : PropertyCheckConfiguration = PropertyCheckConfiguration(minSuccessful = 10000)
 
   "gcd" should {
 
     "work for non zero values" in {
       forAll { (a: Int, b: Int) =>
         whenever(a != 0 && b != 0) {
-          Basics.gcd(a, b) must equal(Some(gcd(a, b)))
+          BigInt(Basics.gcd(a, b).get) must equal(gcd(a, b))
         }
       }
     }
@@ -25,8 +25,8 @@ class BasicsSpec extends AnyWordSpec with Matchers with ScalaCheckDrivenProperty
     "work if one of the values is zero" in {
       forAll { a: Int =>
         whenever(a != 0) {
-          Basics.gcd(a, 0) must equal(Some(gcd(a, 0)))
-          Basics.gcd(0, a) must equal(Some(gcd(0, a)))
+          BigInt(Basics.gcd(a, 0).get) must equal(gcd(a, 0))
+          BigInt(Basics.gcd(0, a).get) must equal(gcd(0, a))
         }
       }
     }
@@ -42,7 +42,7 @@ class BasicsSpec extends AnyWordSpec with Matchers with ScalaCheckDrivenProperty
     "work for non zero values" in {
       forAll { (a: Int, b: Int) =>
         whenever(a != 0 && b != 0) {
-          Basics.lcm(a, b) must equal(Some(lcm(a, b)))
+          BigInt(Basics.lcm(a, b).get) must equal((BigInt(a) * BigInt(b) / gcd(a, b)).abs)
         }
       }
     }

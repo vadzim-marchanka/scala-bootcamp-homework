@@ -5,9 +5,9 @@ import scala.annotation.tailrec
 object Basics {
 
   @tailrec
-  def gcd(a: Int, b: Int): Option[Int] = (a, b) match {
+  def gcd(a: Int, b: Int): Option[Long] = (a, b) match {
     case (0, 0) => None
-    case (v, 0) => Some(v.abs)
+    case (_, 0) => Some(a.toLong.abs)
     case _ => gcd(b, a % b)
   }
 
