@@ -12,6 +12,6 @@ object Main {
       operation.fold(error("Command not found")) { op =>
         op.calculate(numbers).fold(e => error(e),r => composeResult(op, numbers, r))
       }
-    }.foreach{l => println(l)}
+    }.foreach(println)
 
 }
