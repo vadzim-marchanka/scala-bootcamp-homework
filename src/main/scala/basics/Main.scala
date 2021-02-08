@@ -9,13 +9,8 @@ object Main {
   def main(args: Array[String]): Unit =
     Source.stdin.getLines().map { line =>
       val (operation, numbers) = ConsoleHelper.parse(line)
-      operation match {
-        case Some(op) =>
-          op.calculate(numbers) match {
-            case Left(e) => error(e)
-            case Right(answer) => composeResult(op, numbers, answer)
-          }
-        case None => error("Command not found")
+      operation.fold(error("Command not found")) { op =>
+        op.calculate(numbers).fold(e => error(e),r => composeResult(op, numbers, r))
       }
     }.foreach{l => println(l)}
 
