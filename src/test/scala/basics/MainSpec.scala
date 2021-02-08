@@ -1,6 +1,6 @@
 package basics
 
-import java.io.{ByteArrayInputStream, PrintStream}
+import java.io.ByteArrayInputStream
 
 import org.scalatest.Assertion
 import org.scalatest.matchers.should.Matchers
