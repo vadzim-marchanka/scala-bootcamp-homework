@@ -123,7 +123,9 @@ object DataStructures {
   // `vegetableAmounts` and prices per unit from `vegetablePrices`. Assume the price is 10 if not available
   // in `vegetablePrices`.
   val totalVegetableCost: Int = {
-    17 // implement here
+    vegetableAmounts.toSeq.map {
+      case (vegetable, amount) => amount * vegetablePrices.getOrElse(vegetable, 10)
+    }.sum
   }
 
   // Exercise. Given the vegetable weights (per 1 unit of vegetable) in `vegetableWeights` and vegetable
