@@ -11,19 +11,22 @@ object Collections extends App {
    */
   @tailrec
   def findGap(l: List[Int]): Option[(Int, Int)] = l match {
-    case Nil => None
-    case _ :: Nil => None
     case first :: second :: tail =>
       if (second - first > 1) Option(first, second) else findGap(second :: tail)
+    case _ => None
   }
 
   def min(list: List[Int]): Option[Int] = list.reduceOption(_ min _)
 
-  def scanLeft[T](zero: T)(list: List[T])(f: (T, T) => T): List[T] =
-    list match {
-      case Nil => List(zero)
-      case head :: tail => zero :: scanLeft(f(zero, head))(tail)(f)
+  def scanLeft[T](zero: T)(list: List[T])(f: (T, T) => T): List[T] = {
+    @tailrec
+    def solve[T](acc: List[T])(zero: T)(list: List[T])(f: (T, T) => T): List[T] = list match {
+      case Nil => zero :: acc
+      case head :: tail => solve(zero :: acc)(f(zero, head))(tail)(f)
     }
+
+    solve(List.empty)(zero)(list)(f).reverse
+  }
 
   // https://twitter.com/allenholub/status/1357115515672555520/photo/1
   // pass the interview
