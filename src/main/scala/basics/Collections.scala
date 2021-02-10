@@ -82,23 +82,16 @@ object Collections extends App {
   def matrixBlockSum(mat: Array[Array[Int]], K: Int) = {
     val n = mat.length
     val m = mat.head.length
-    var answer: Array[Array[Int]] = Array()
-    for (i <- mat.indices) {
-      var row: Array[Int] = Array()
-      for (j <- mat(i).indices) {
-        var acc: Int = 0
-        for (ki <- (-K to K).map(_ + i) ) {
-          for (kj <- (-K to K).map(_ + j) ) {
-            if (0 <= ki && ki < n && 0 <= kj && kj < m) {
-              acc = acc + mat(ki)(kj)
-            }
-          }
-        }
-        row = row :+ acc
-      }
-      answer = answer :+ row
-    }
-    answer
+    mat.indices.map { i =>
+      mat(0).indices.map { j =>
+        (-K to K).map(_ + i).map { ki =>
+          (-K to K).map(_ + j)
+            .collect {
+              case kj if 0 <= ki && ki < n && 0 <= kj && kj < m => mat(ki)(kj)
+            }.sum
+        }.sum
+      }.toArray
+    }.toArray
   }
 
 }
