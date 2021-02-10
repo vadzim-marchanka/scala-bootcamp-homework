@@ -69,20 +69,20 @@ object Collections extends App {
   }
 
   // https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses/
-  def maximumNestingDepth(s: String) =
+  def maximumNestingDepth(s: String): Int =
     s.filter(c => c == '(' || c == ')').scanLeft(0){ (acc, current) =>
       if (current == '(') acc + 1 else acc - 1
     }.max
 
   // https://leetcode.com/problems/split-a-string-in-balanced-strings
-  def splitAString(s: String) = {
+  def splitAString(s: String): Int = {
     s.scanLeft(0){ (acc, current) =>
       if (current == 'R') acc + 1 else acc - 1
     }.count(_ == 0) - 1
   }
 
   // https://leetcode.com/problems/matrix-block-sum/
-  def matrixBlockSum(mat: Array[Array[Int]], K: Int) = {
+  def matrixBlockSum(mat: Array[Array[Int]], K: Int): Array[Array[Int]] = {
     val n = mat.length
     val m = mat.head.length
     mat.indices.map { i =>
