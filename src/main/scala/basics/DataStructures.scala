@@ -133,7 +133,10 @@ object DataStructures {
   //
   // For example, the total weight of "olives" is 2 * 32 == 64.
   val totalVegetableWeights: Map[String, Int] = { // implement here
-    Map()
+    vegetableWeights.collect {
+      case (vegetable, amount) if vegetableAmounts.contains(vegetable)  =>
+        vegetable -> (vegetableAmounts.getOrElse(vegetable, 0) * amount)
+    }
   }
 
   // Ranges and Sequences
