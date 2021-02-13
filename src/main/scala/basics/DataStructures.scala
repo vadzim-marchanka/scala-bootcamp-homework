@@ -1,6 +1,5 @@
 package basics
 
-import scala.util.Try
 
 object DataStructures {
 
@@ -49,7 +48,7 @@ object DataStructures {
   val totalVegetableWeights: Map[String, Int] = { // implement here
     vegetableWeights.collect {
       case (vegetable, amount) if vegetableAmounts.contains(vegetable)  =>
-        vegetable -> (vegetableAmounts.getOrElse(vegetable, 0) * amount)
+        vegetable -> vegetableAmounts(vegetable) * amount
     }
   }
 
@@ -79,8 +78,13 @@ object DataStructures {
   //
   // Input `Map("a" -> 1, "b" -> 2, "c" -> 4, "d" -> 1, "e" -> 0, "f" -> 2, "g" -> 2)` should result in
   // output `List(Set("e") -> 0, Set("a", "d") -> 1, Set("b", "f", "g") -> 2, Set("c") -> 4)`.
-  def sortConsideringEqualValues[T](keysAndValues: Map[T, Int]): List[(Set[T], Int)] =
-    keysAndValues.toSeq.groupBy(_._2).map {
-      case (value, keysWithValues) => keysWithValues.map(_._1).toSet -> value
-    }.toList.sortBy(_._2)
+  def sortConsideringEqualValues[T](letterAndNumber: Map[T, Int]): List[(Set[T], Int)] =
+    letterAndNumber
+      .groupBy{ case (_, number) => number }
+      .map {
+        case (number, letterAndNumber) =>
+          letterAndNumber.map{ case (letter, _) => letter }.toSet -> number
+      }
+      .toList
+      .sortBy { case (_, number) => number }
 }

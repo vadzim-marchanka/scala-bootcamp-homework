@@ -12,7 +12,7 @@ object Collections extends App {
   @tailrec
   def findGap(l: List[Int]): Option[(Int, Int)] = l match {
     case first :: second :: tail =>
-      if (second - first > 1) Option(first, second) else findGap(second :: tail)
+      if (second - first > 1) Some(first, second) else findGap(second :: tail)
     case _ => None
   }
 
@@ -63,9 +63,7 @@ object Collections extends App {
   // https://leetcode.com/problems/widest-vertical-area-between-two-points-containing-no-points
   def widestVerticalArea(points: Array[Array[Int]]): Int = {
     val sortedX = points.map(_.head).sorted
-    sortedX.foldLeft((0, sortedX.head)){
-      case ((answer, previousX), currentX) => (answer max (currentX - previousX), currentX)
-    }._1
+    sortedX.zip(sortedX.tail).map{ case (prev, next) => next - prev }.max
   }
 
   // https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses/
@@ -83,14 +81,12 @@ object Collections extends App {
 
   // https://leetcode.com/problems/matrix-block-sum/
   def matrixBlockSum(mat: Array[Array[Int]], K: Int): Array[Array[Int]] = {
-    val n = mat.length
-    val m = mat.head.length
     mat.indices.map { i =>
-      mat(0).indices.map { j =>
+      mat(i).indices.map { j =>
         (-K to K).map(_ + i).map { ki =>
           (-K to K).map(_ + j)
             .collect {
-              case kj if 0 <= ki && ki < n && 0 <= kj && kj < m => mat(ki)(kj)
+              case kj if mat.isDefinedAt(ki) && mat(ki).isDefinedAt(kj) => mat(ki)(kj)
             }.sum
         }.sum
       }.toArray
