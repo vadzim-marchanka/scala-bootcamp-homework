@@ -25,7 +25,7 @@ object CardsValidations {
     !sequentialValidation.isValid(cards)
 
   implicit val withAceValidation: Validation[WithAce] = (cards: Cards) => cards.values.exists(_.rank == Ace)
-  implicit val withoutAceValidation: Validation[WithoutAce] = (cards: Cards) => withAceValidation.isValid(cards)
+  implicit val withoutAceValidation: Validation[WithoutAce] = (cards: Cards) => !withAceValidation.isValid(cards)
 
   implicit val hasFourUniqueRanksValidation: Validation[FourUniqueRanks] =
     (cards: Cards) => cards.values.map(_.rank).distinct.size == 4

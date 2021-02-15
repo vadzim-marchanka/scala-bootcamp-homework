@@ -48,7 +48,8 @@ object Hands {
 
   def threeOfKind(cards: Cards1[Five]): Option[ThreeOfKind] = for {
     threeOfKinds <- create[Three, SameRank](cards.maxCardsWithSameRank)
-    remainingCards <- create[Two](cards.disjoin(threeOfKinds))
+    remainingUniqueCards <- create[Two, AllUniqueRanks](cards.disjoin(threeOfKinds))
+    remainingCards <- create[Two](remainingUniqueCards)
   } yield ThreeOfKind(threeOfKinds, remainingCards)
 
   def twoPair(cards: Cards1[Five]): Option[TwoPair] = for {

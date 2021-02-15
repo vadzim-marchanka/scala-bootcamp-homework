@@ -50,9 +50,9 @@ object Cards {
     Option.when(validation1.isValid(cards) && validation2.isValid(cards) && validation3.isValid(cards))(Cards3[X1, X2, X3](cards.values))
 
   def create[X1 <: Restriction, X2 <: Restriction, X3 <: Restriction, X4 <: Restriction](cards: Cards)(
-    implicit validation1: Validation[X1], validation2: Validation[X2], validation3: Validation[X3], validation4: Validation[X3])
+    implicit validation1: Validation[X1], validation2: Validation[X2], validation3: Validation[X3], validation4: Validation[X4])
   : Option[Cards4[X1, X2, X3, X4]] = Option.when(validation1.isValid(cards) && validation2.isValid(cards)
-      && validation3.isValid(cards) && validation3.isValid(cards))(Cards4[X1, X2, X3, X4](cards.values))
+      && validation3.isValid(cards) && validation3.isValid(cards) && validation4.isValid(cards))(Cards4[X1, X2, X3, X4](cards.values))
 
 
   abstract class Validation[T <: Restriction] {
