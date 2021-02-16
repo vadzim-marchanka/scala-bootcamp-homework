@@ -7,20 +7,16 @@ trait Cards {
 
   protected[adt] def values: List[Card]
 
-  protected[adt] def maxCardsWithSameSuite: Cards = {
-    val maxWithSameSuite = values
-      .groupBy(_.suit)
-      .maxBy { case (_, cards) => cards.size }
-      ._2
-    Cards.create(maxWithSameSuite)
-  }
+  protected[adt] def maxGroupWithSameSuite: Cards = maxGroupWithCriteria(_.suit)
 
-  protected[adt] def maxCardsWithSameRank: Cards = {
-    val maxWithSameRank = values
-      .groupBy(_.rank)
+  protected[adt] def maxGroupWithSameRank: Cards = maxGroupWithCriteria(_.rank)
+
+  private def maxGroupWithCriteria[T](criteria: Card => T): Cards = {
+    val maxGroup = values
+      .groupBy(criteria)
       .maxBy { case (_, cards) => cards.size }
       ._2
-    Cards.create(maxWithSameRank)
+    Cards.create(maxGroup)
   }
 
   protected[adt] def disjoin(cards: Cards): Cards = Cards.create(values.filterNot(cards.values.contains(_)))

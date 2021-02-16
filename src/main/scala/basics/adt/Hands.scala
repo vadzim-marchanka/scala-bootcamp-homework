@@ -25,7 +25,7 @@ object Hands {
     create[Five, SameSuite, Sequential, WithoutAce](cards).map(StraightFlush)
 
   def fourOfKind(cards: Cards1[Five]): Option[FourOfKind] = {
-    val maxGroup = cards.maxCardsWithSameRank
+    val maxGroup = cards.maxGroupWithSameRank
     for {
       fourOfKind <- create[Four, SameRank](maxGroup)
       remainingCard <- cards.disjoin(maxGroup).first
@@ -33,7 +33,7 @@ object Hands {
   }
 
   def fullHouse(cards: Cards1[Five]): Option[FullHouse] = {
-    val maxGroup = cards.maxCardsWithSameRank
+    val maxGroup = cards.maxGroupWithSameRank
     for {
       threeOfKind <- create[Three, SameRank](maxGroup)
       pair <- create[Two, SameRank](cards.disjoin(maxGroup))
@@ -47,21 +47,21 @@ object Hands {
     create[Five, Sequential, NotSameSuite](cards).map(Straight)
 
   def threeOfKind(cards: Cards1[Five]): Option[ThreeOfKind] = for {
-    threeOfKinds <- create[Three, SameRank](cards.maxCardsWithSameRank)
+    threeOfKinds <- create[Three, SameRank](cards.maxGroupWithSameRank)
     remainingUniqueCards <- create[Two, AllUniqueRanks](cards.disjoin(threeOfKinds))
     remainingCards <- create[Two](remainingUniqueCards)
   } yield ThreeOfKind(threeOfKinds, remainingCards)
 
   def twoPair(cards: Cards1[Five]): Option[TwoPair] = for {
-    firstPair <- create[Two, SameRank](cards.maxCardsWithSameRank)
+    firstPair <- create[Two, SameRank](cards.maxGroupWithSameRank)
     remainingCards = cards.disjoin(firstPair)
-    secondPair <- create[Two, SameRank](remainingCards.maxCardsWithSameRank)
+    secondPair <- create[Two, SameRank](remainingCards.maxGroupWithSameRank)
     remainingCard <- remainingCards.disjoin(secondPair).first
   } yield TwoPair(firstPair, secondPair, remainingCard)
 
   def pair(cards: Cards1[Five]): Option[Pair] = for {
     checkedCards <- create[Five, FourUniqueRanks](cards)
-    pair <- create[Two, SameRank](checkedCards.maxCardsWithSameRank)
+    pair <- create[Two, SameRank](checkedCards.maxGroupWithSameRank)
     remainingCards <- create[Three](checkedCards.disjoin(pair))
   } yield Pair(pair, remainingCards)
 
