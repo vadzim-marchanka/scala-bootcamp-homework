@@ -15,7 +15,7 @@ object Hands {
   case class Straight private(cards: Cards3[Five, Sequential, NotSameSuite]) extends Hand
   case class ThreeOfKind private(threeOfKindCards: Cards2[Three, SameRank], remainingCards: Cards1[Two]) extends Hand
   case class TwoPair private(firstPair: Cards2[Two, SameRank], secondPair: Cards2[Two, SameRank], card: Card) extends Hand
-  case class Pair private(pair: Cards2[Two, SameRank], remainingCards: Cards) extends Hand
+  case class Pair private(pair: Cards2[Two, SameRank], remainingCards: Cards1[Three]) extends Hand
   case class HighCard private(cards: Cards4[Five, AllUniqueRanks, NotSameSuite, NotSequential]) extends Hand
 
   def royalFlush(cards: Cards1[Five]): Option[RoyalFlush] =
