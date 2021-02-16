@@ -1,10 +1,13 @@
 package basics.adt
 
-import basics.adt.Cards.Validation
-import basics.adt.CardsRestrictions.{AllUniqueRanks, Five, Four, FourUniqueRanks, NotSameRank, NotSameSuite, NotSequential, SameRank, SameSuite, Sequential, Three, Two, WithAce, WithoutAce}
+import basics.adt.CardsRestrictions.{AllUniqueRanks, Five, Four, FourUniqueRanks, NotSameRank, NotSameSuite, NotSequential, Restriction, SameRank, SameSuite, Sequential, Three, Two, WithAce, WithoutAce}
 import basics.adt.Rank.Ace
 
 object CardsValidations {
+
+  abstract class Validation[T <: Restriction] {
+    def isValid(cards: Cards): Boolean
+  }
 
   implicit val twoCardsValidation: Validation[Two] = (cards: Cards) =>  cards.values.size == 2
   implicit val threeCardsValidation: Validation[Three] = (cards: Cards) =>  cards.values.size == 3
