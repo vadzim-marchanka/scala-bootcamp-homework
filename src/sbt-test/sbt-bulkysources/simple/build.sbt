@@ -20,6 +20,10 @@ lazy val withoutThresholdOverride = project.settings(
 lazy val withThresholdOverride = project
   .settings(
     bulkySourcesThresholdInLines := 20,
+    TaskKey[Unit]("testWithEmptyThresholdInUserInput") := {
+      val result = (Compile / bulkySources).toTask("").value
+      verifyResult(result, List(objectWith150Lines, objectWith50Lines))
+    },
     TaskKey[Unit]("testWithSpecifiedInvalidThresholdInUserInput") := {
       val result = (Compile / bulkySources).toTask(" laskdjfklsajdfllkj").value
       verifyResult(result, List(objectWith150Lines, objectWith50Lines))
