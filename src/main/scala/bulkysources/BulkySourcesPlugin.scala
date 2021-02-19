@@ -14,7 +14,7 @@ object BulkySourcesPlugin extends AutoPlugin {
   object autoImport {
     val bulkySourcesThresholdInLines = settingKey[Int]("Configures the user threshold for bulkySources task")
     val bulkySources = inputKey[Seq[(Int, File)]](
-      "Shows the list of bulky sources with line number more than threshold number configured in bulkyThresholdInLines setting. "
+      "Shows the list of bulky sources with line number more than threshold number configured in bulkySourcesThresholdInLines setting."
     )
   }
 
