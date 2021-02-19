@@ -1,14 +1,14 @@
-scalaVersion := "2.13.3"
+import sbt.Keys.version
 
-
-name := "scala-bootcamp-homework"
-organization := "com.marchanka"
-version := "0.1"
-
-val scalaTestPlusVersion = "3.1.0.0-RC2"
-val scalaTestVersion = "3.2.2"
-
-libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
-  "org.scalatestplus" %% "scalatestplus-scalacheck" % scalaTestPlusVersion % Test,
-)
+lazy val root = (project in file("."))
+  .enablePlugins(SbtPlugin)
+  .settings(
+    name := "sbt-bulkysources",
+    organization := "com.marchanka",
+    version := "0.1-SNAPSHOT",
+    pluginCrossBuild / sbtVersion := {
+      scalaBinaryVersion.value match {
+        case "2.12" => "1.2.8"
+      }
+    }
+  )

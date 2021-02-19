@@ -1,0 +1,1 @@
+addSbtPlugin("com.marchanka" % "sbt-bulkysources" % "0.1-SNAPSHOT")
