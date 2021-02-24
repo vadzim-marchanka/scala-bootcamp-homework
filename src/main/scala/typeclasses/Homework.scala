@@ -33,7 +33,7 @@ object Task3 extends App {
   implicit val userParser: Parse[User] = str => {
     str.split("\\|").toList match {
       case id :: name :: Nil => Right(User(id, name))
-      case k => Left(s"Parse failure at $k . Can not parse the string $str . The string should be represented as id%user.")
+      case k => Left(s"Parse failure at $k . Can not parse the string $str . The string should be represented as id|user.")
     }
   }
 
