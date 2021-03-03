@@ -171,9 +171,11 @@ class ImplicitsHomeworkSpec extends AnyFreeSpec with Matchers {
 }
 
 private object ImplicitsHomeworkSpec {
-  case class TestValue(score: SizeScore)
+  case class TestValue(score: SizeScore) extends AnyVal
   object TestValue {
-    implicit val testValueGetSizeScore: GetSizeScore[TestValue] = (value: TestValue) => value.score
+    implicit val testValueGetSizeScore: GetSizeScore[TestValue] = new PrimitiveSizeScore[TestValue] {
+      override def apply(value: TestValue): SizeScore = value.score
+    }
   }
 }
 
