@@ -154,10 +154,10 @@ object ImplicitsHomework {
       implicit val stringSizeScore: GetSizeScore[String] = new ObjectSizeScore[String] {
         override def contentSize(value: String): SizeScore = value.toCharArray.map(_.sizeScore).sum
       }
-      implicit def iterator[S: GetSizeScore, I[_]: Iterate]: GetSizeScore[I[S]] = new ObjectSizeScore[I[S]] {
+      implicit def iteratorSizeScore[S: GetSizeScore, I[_]: Iterate]: GetSizeScore[I[S]] = new ObjectSizeScore[I[S]] {
         override def contentSize(value: I[S]): SizeScore = implicitly[Iterate[I]].iterator(value).map(_.sizeScore).sum
       }
-      implicit def iterator2[K: GetSizeScore, V: GetSizeScore, I[_, _]: Iterate2]: GetSizeScore[I[K, V]] =
+      implicit def iterator2SizeScore[K: GetSizeScore, V: GetSizeScore, I[_, _]: Iterate2]: GetSizeScore[I[K, V]] =
         new ObjectSizeScore[I[K, V]] {
           override def contentSize(value: I[K, V]): SizeScore = {
             val iterators = implicitly[Iterate2[I]]
@@ -190,7 +190,7 @@ object ImplicitsHomework {
         watchedPewDiePieTimes: Long
     )
 
-    implicit val fbiNoteSize: GetSizeScore[FbiNote] = new ObjectSizeScore[FbiNote] {
+    implicit val noteSizeScore: GetSizeScore[FbiNote] = new ObjectSizeScore[FbiNote] {
       override def contentSize(note: FbiNote): SizeScore =
         note.month.sizeScore + note.favouriteChar.sizeScore + note.watchedPewDiePieTimes.sizeScore
     }
